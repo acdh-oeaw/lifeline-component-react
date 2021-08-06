@@ -1,0 +1,70 @@
+{
+  "name": "lifeline-react",
+  "version": "1.0.0",
+  "description": "components library for visualization",
+  "main": "lib/lifeline.js",
+  "module": "lib/lifeline.esm.js",
+  "types": "lib/lifeline.d.ts",
+  "browser": "lib/lifeline.umd.js",
+  "author": "Barbara Krautgartner",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/parser": "^7.14.9",
+    "@rollup/plugin-commonjs": "^19.0.2",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@storybook/addon-actions": "^6.3.6",
+    "@storybook/addon-essentials": "^6.3.6",
+    "@storybook/addon-links": "^6.3.6",
+    "@storybook/react": "^6.3.6",
+    "@storybook/testing-react": "0.0.21",
+    "@testing-library/react": "^12.0.0",
+    "@types/jest": "^26.0.24",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "babel-loader": "8.1.0",
+    "eslint": "^7.31.0",
+    "eslint-plugin-react": "^7.24.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
+    "rollup": "^2.55.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "save": "^2.4.0",
+    "typescript": "^4.3.5",
+    "webpack": "4.44.2"
+  },
+  "dependencies": {
+    "@types/d3-axis": "^3.0.1",
+    "@types/d3-force": "^3.0.3",
+    "@types/d3-scale": "^4.0.1",
+    "@types/d3-selection": "^3.0.0",
+    "@types/d3-shape": "^3.0.2",
+    "@types/d3-transition": "^3.0.1",
+    "babel": "git+https://github.com/babel/babel.git#v7.14.9",
+    "d3-axis": "^3.0.0",
+    "d3-force": "^3.0.0",
+    "d3-scale": "^3.3.0",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.0.1",
+    "d3-transition": "^3.0.1",
+    "geolib": "^3.3.1",
+    "postcss": "^8.3.6"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(d3-force|d3-ease|d3-axis|d3-path|d3-shape|d3-selection|d3-transition|d3-color|d3-interpolate|d3-quadtree|d3-dispatch|d3-timer|d3-scale)/)\"",
+    "coverage": "react-scripts test --watchAll=false --coverage",
+    "build": "rollup -c",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  }
+}

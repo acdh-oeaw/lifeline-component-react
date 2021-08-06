@@ -1,0 +1,27 @@
+stages:
+  - buildStoryBook
+  - deploy
+
+buildStoryBook:
+  stage: buildStoryBook
+  image: node:latest
+  cache:
+    paths:
+      - node_modules/
+  script:
+      - npm install
+      - mkdir public
+      - npm run build-storybook
+      - mv ./storybook-static/* ./public
+  artifacts:
+    paths:
+      - public
+pages:
+  dependencies:
+    - buildStoryBook
+  stage: deploy
+  script:
+    - echo 'Rick and Morty'
+  artifacts:
+    paths:
+      - public
