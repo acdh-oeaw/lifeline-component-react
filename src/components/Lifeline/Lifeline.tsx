@@ -5,9 +5,15 @@ import { forceSimulation, forceCollide, forceX, forceY, SimulationNodeDatum} fro
 import { scaleLinear } from 'd3-scale';
 import { axisLeft } from 'd3-axis';
 import { line } from 'd3-shape';
-import { select } from 'd3-selection';
+import { select as d3select, Selection, BaseType, selection } from 'd3-selection';
+
+
+
+
 
 type LabelPlacement = "topLeft" | "topCenter" | "topRight";
+
+
 
 interface LifepathEvent {
   id: number,
@@ -30,7 +36,7 @@ interface Node extends SimulationNodeDatum {
 }
 
 
-interface LifelineProps {
+export interface LifelineProps {
   /**
    * Should to earliest date be shown on top?
    */
@@ -59,6 +65,11 @@ interface LifelineProps {
    * lifepath data
    */
   lifepath: LifepathEvent[];
+
+   /**
+   * What color to use for the map markers
+   */
+  markercolor?: string;
   /**
    * Optional click handler
    */
@@ -77,16 +88,17 @@ const Lifeline: React.FunctionComponent<LifelineProps> = (props: LifelineProps) 
     // Update the document title using the browser API
     if (props.lifepath && d3Container.current)
       createLifeline(props)
+      
   });
 
 
   return (
-    <div
+    <div className="lifelinecontainer"
       //  className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
       ref={d3Container} {...props}
     >   {(props.titlelabel && props.titlelabel.length > 0) &&
       <label className={props.titlelabelplacement}>{props.titlelabel}</label>}
-      <svg style={{ width: "100%" }} className="svg-canvas"></svg>
+      <svg className="svg-canvas"></svg>
     </div>
   );
 }
@@ -99,7 +111,8 @@ Lifeline.defaultProps = {
   lifeeventcolor: "#D4D4D8",
   lifeeventopacity: 0.5,
   lifepath: [],
-  titlelabelplacement: "topCenter"
+  titlelabelplacement: "topCenter",
+  markercolor: "#cc756b"
 };
 
 function createLifeline(props: LifelineProps) {
@@ -141,7 +154,7 @@ function createLifeline(props: LifelineProps) {
   const  yScale  = scaleLinear().domain([minY, maxY]).rangeRound([0, height]) 
   const xScale = scaleLinear().domain([minX, maxX]).rangeRound([0, width])
 
-  const yAxis = axisLeft(yScale)
+  const yAxis = axisLeft(yScale).tickFormat(x => x)
   
   //
 
@@ -149,7 +162,7 @@ function createLifeline(props: LifelineProps) {
     .x(d  => xScale(d.x))
     .y(d => yScale(d.year))(b)
 
-  const svg = select('.svg-canvas')
+  const svg = d3select('.svg-canvas')
   svg.selectAll("*").remove()
   svg
     .attr('preserveAspectRatio', 'xMinYMin meet')
@@ -188,7 +201,8 @@ function createLifeline(props: LifelineProps) {
   }
 
   const labels = computeLabelPositions(30, 30)
-
+  
+  
   svg.append('g')
     .selectAll('labels')
     .data(labels)
@@ -208,7 +222,9 @@ function createLifeline(props: LifelineProps) {
     }).on('mouseout', (event, d) => {
       
     })*/
-    .select( function()  { return this.parentNode })
+    .select(function(){
+      return this.parentNode;
+    })
     .append('g')
     .attr('class', 'label-text')
     .append('text')
@@ -229,7 +245,6 @@ function createLifeline(props: LifelineProps) {
       const gs = e.nodes()
       gs.reduce((m, g) => {
         const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-        
         
         const bb = (g as SVGSVGElement).getBBox()
         r.setAttribute('x', bb.x.toString())

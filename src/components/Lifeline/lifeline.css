@@ -1,5 +1,8 @@
 /*** styling the label for the whole component ***/
 
+
+
+
 label {
   display:block;
 }
@@ -38,4 +41,9 @@ circle{
   transition: .15s;
   transform-origin: center center;
   transform-box: fill-box;
+}
+
+.svg-canvas {
+  height:100%;
+  width:100%;
 }
